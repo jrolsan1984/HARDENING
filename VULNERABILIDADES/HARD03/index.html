@@ -1,0 +1,82 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>GUÍA PARA SUBSANAR VULNERABILIDAD utilman.exe.</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="HARD03"
+                  title="GUÍA PARA SUBSANAR VULNERABILIDAD utilman.exe."
+                  environment="web"
+                  feedback-link="https://github.com/jrolsan1984/HARDENING/issues/new?title=Vulnerabilidad&#43;utilman.exe&#43;windows">
+    
+      <google-codelab-step label="INTRODUCCIÓN." duration="0">
+        <p>En los sistemas operativos de Windows exite un archivo llamado <em>utilman.exe</em>, asociado con la aplicación <em>Utility Manager</em> de Windows y apriori, no presenta ningana amenaza para los pc&#39;s.<br>La extensión <em>.exe</em> nos indica que es un archivo ejecutable. Los archivos ejecutables pueden ocasionar daños en los ordenadores si estos tiene un código malicioso.</p>
+<p class="image-container"><img src="img\fa252c8fc7cced00.png"><img src="img\e9911d7c5dd97fba.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="VULNERABILIDAD." duration="0">
+        <p>La vulnerabilidad que presentamos es, que através de líneas de comandos se puede cambiar la función del <strong>icono de accesibilidad</strong> que aparece en la pantalla de bloque de Windows.<br>Renombrando el archivo <em>cmd.exe</em>, que ejecuta el <em>Command Prompt</em> o <em>Símbolo del Sistema</em> como el archivo donde se aloja el menú de accesibilidad, el archivo <em>utilman.exe</em>.<br>En esta guía enseñaremos como se realiza esta vulnerabilidad y como subsanarla para evitar cualquier intrusión en el sistema.</p>
+<h2 is-upgraded>¿COMO LO HACEN?</h2>
+<p>Inicias el pc con el disco de inicio de Windows, tanto con DVD como USB. Como si fueses a formatearlo. Clicamos en <strong>Reparar mi equipo</strong> y seguimos los siguientes pasos.<br></p>
+<p class="image-container"><img src="img\b9fe23469fd5a01f.png"></p>
+<ul>
+<li>Clicamos en <em>Solucionar problemas</em>.</li>
+</ul>
+<p class="image-container"><img src="img\e0506f591b2fe756.png"></p>
+<ul>
+<li>Clicamos en <em>Símbolo de sistema</em>.<br><img src="img\6a00ee233549d71b.png"></li>
+</ul>
+<p>Un CMD se nos abrira de inmediato. Ejecutamos los siguientes comandos:<br></p>
+<p class="image-container"><img src="img\63bcad1057666851.png"></p>
+<p>La primera linea de CMD <em>X:\Sources&gt;d:</em> quiere decir que es el directorio que te crea por defecto windows 10 al iniciar el cmd de resolución de errores, Se podría decir que es como un cmd con características y funciones limitadas. <em>&#34;d&#34;</em>, es el raíz de nuestro disco, como si fuese <em>&#34;c:\&#34;</em> en un modo normal. En la segunda y tercera línea nos movemos hasta donde esté situado el archivo que estemos buscando. Por ejemplo, en este caso es el famoso archivo <em>utilman.exe</em> que conocemos que está ubicado en <em>c:\Windows\System32</em>. Una vez en la ruta del archivo, con el comando <em>move</em> cambiamos el nombre del archivo para después del ataque, volver a dejar el archivo como estaba antes del cambio. En la quinta línea copiamos el <strong>CMD.exe</strong> en el <strong>UTILMAN.exe</strong>. Cuando ejecutemos la aplicaciones  de <em>Utility Manager</em> se ejecurara un <em>Command Prompt</em>. En la penúltima línea es para habilitar el usuario administrador, por si estuviese desactivado. Y por último reiniciamos, y al clicar en el icono de <em>accesibilidad</em> se nos abrirá un CMD con privilegios de administrador. Ahí ya podremos cambiar la contraseña del usuario administrador.<br></p>
+<p class="image-container"><img src="img\46be281cda63662d.png"></p>
+<p>Cambiamos la contraseña de <em>administrador</em> tal y como se muestra en la imagen.<br></p>
+<p class="image-container"><img src="img\8ee1965162995da8.png"></p>
+<p>Y con esto ya tendria el atacante nuestro usuario de administrador con todos sus privilegios sobre el sistema.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="¿COMO SE SOLUCIONA?" duration="0">
+        <p>Esa es la pregunta que todos nos hacemos. Existen diferentes formas de inhabilitar el archivo <em>utilman.exe</em>. En nuestro laboratorio hemos realizado la siguiente prueba, siendo el resultado satisfactorio al eliminar esta vulnerabilidad.</p>
+<h2 is-upgraded>ELIMINAMOS LA VULNERABILIDAD.</h2>
+<p>Esta puerta a intrusos se erradica de una manera muy sencilla. Sólo basta con cambiar el nombre del archivo por otro. No importa como renombremos el archivo, lo importante es que el atacante no lo identifique.<br></p>
+<p class="image-container"><img src="img\d427f9e19036ad27.png"></p>
+<p>En una cuenta de <strong>administrador</strong>,nos ubicamos en la ruta del archivo <em>utilman.exe</em>. Clicamos con botón derecho de nuestro ratón y pulsamos en <strong>Propiedades</strong>. EN la pestaña de <em>Seguridad</em>, cliclamos la opción más abajo, <strong>Opciones avanzadas</strong>. Dentro de esta opción nos está informando de <em>quien es el propietario del archivo</em> y *los <em>permisos</em> que tiene los usuarios* asignados. Como vemos en la imagen, El propiestario del archivo es <strong>TrustedInstaller</strong> y todos los demás usuarios tienen permisos de <em>Lectura y ejecución</em>.<br></p>
+<p class="image-container"><img src="img\bfe8321127b31c8f.png"></p>
+<p>Cambiamos los valores anteriores, el <em>Propietario</em> del archivo debe ser <em>Administrador</em> con <em>Permisos</em> de <strong>Control Total</strong> y <em>TrustredInstall</em> no es propietario y tiene <em>permisos</em> de <strong>Lectura y ejecución</strong>.</p>
+<p>Renombramos archivo y la puerta através de <em>utilman.exe</em> es inaccesible para cuaquier intento de entrada no autorizada.<br></p>
+<p class="image-container"><img src="img\22308f90ba629dff.png"></p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
