@@ -1,0 +1,30 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2021-12-07T18:05:17+01:00",
+  "id": "HARD05",
+  "duration": 0,
+  "title": "GUÍA DE CONFIGURACIÓN AVANZADA DE OSPF DE ÁREA ÚNICA.",
+  "summary": "Configuración avanzada de OSPF de área única.",
+  "source": "codelab.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "securizacion",
+    "routing",
+    "cisco",
+    "r\u0026s",
+    "protocolo",
+    "ospf",
+    "secure"
+  ],
+  "tags": [
+    "web"
+  ],
+  "feedback": "https://github.com/jrolsan1984/HARDENING/issues/new?title=Protocolo+OSPF+CISCO",
+  "url": "HARD05"
+}

@@ -1,0 +1,247 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>GUÍA DE CONFIGURACIÓN AVANZADA DE OSPF DE ÁREA ÚNICA.</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="HARD05"
+                  title="GUÍA DE CONFIGURACIÓN AVANZADA DE OSPF DE ÁREA ÚNICA."
+                  environment="web"
+                  feedback-link="https://github.com/jrolsan1984/HARDENING/issues/new?title=Protocolo&#43;OSPF&#43;CISCO">
+    
+      <google-codelab-step label="INTRODUCCIÓN." duration="0">
+        <p><strong>OSPF</strong> (Open Shortest Path First) es un protocolo que nació como alternativa al enrutamiento RIP, el cual, no se encuentra diseñado para trabajar en grandes redes y complejas.<br>Este es un protocolo sin clase (significa que envía la máscara de subred en sus actualizaciónes), y además usa las áreas como concepto de escalabilidad.<br>El protocolo OSPF es quizás el protocolo más implementado hoy como protocolo de enrutamiento interior para redes corporativas medianas y grandes.<br></p>
+<p class="image-container"><img src="img\190e99c7d3992838.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="¿EMPEZAMOS?" duration="0">
+        <p>Configuraremos un total de 3 routers. El procedimineto es el mismo en los 3 para este caso prático. Siempre se puede utilizar de guía para vuestros propios routers o como complemento a vuestra red si veis que está incompleta.</p>
+<p>A diferencia de otros protocolos, OSPF, antes de poder enviar alguno de sus mensajes, no es necesario que este tenga configurado el Router ID (RID), pero si es conveniente.</p>
+<h2 is-upgraded>CONFIGURACIÓN ROUTER 1 (R1).</h2>
+<p>El Router ID corresponde a un identificador de 32 bits que tiene cada router (nombre del router en OSPF), el cual se encuentra escrito en formato IPv4 (valor decimal con puntos). Es necesario tener en cuenta que, aunque se escriba como una dirección IPv4, no corresponde a una, es solo un valor que identifica un router con OSPF habilitado.</p>
+<p>Dentro de los valores que pueden tomar el Router ID, el valor 0.0.0.0 se encuentra reservado, por lo tanto, cuando se intenta usar da el siguiente mensaje de error:</p>
+<pre><code>R1(config-router)#router-id 0.0.0.0
+% OSPF: 0.0.0.0 is not a valid router-id
+</code></pre>
+<p>Para poder asignar un Router ID, se tiene el siguiente orden de precedencia:</p>
+<h3 is-upgraded><strong>Configuración del protocolo OSPF.</strong></h3>
+<p>A través del comando <em>router-id</em> es posible asignar el valor a cada proceso de OSPF. Aquí se añaden las redes que conoce el router con la mascara de red invertida o <strong>wildcard</strong>, es decir, las redes que tienes conectados a los puertos asignados. Tanto las de tipo RJ45 como SERIAL. Otra opción que nos permite es la de poner en modo pasivo la red  dedicada a Propósito General y no una conexión entre routers. El activar el modo pasivo a un puerto en concreto del router (lo más recomendable es a la red destinada para los usuarios finales) es para no saturar la red innecesariamente con paquetes <em>hello</em>, que se usan para establecer y mantener la adyacencia con otros routers OSPF.</p>
+<pre><code>    R1(config)#router ospf 1
+    R1(config-router)#router-id 1.1.1.1
+    R1(config-router)#network 192.168.1.0 0.0.0.255 area 1
+    R1(config-router)#network 10.10.10.0 0.0.0.3 area 1
+    R1(config-router)#network 30.30.30.0 0.0.0.3 area 1
+    R1(config-router)#passive-interface GigabitEthernet 0/1
+</code></pre>
+<h3 is-upgraded><strong>Interfaz física con dirección IPv4.</strong></h3>
+<p>Por último, si no se tiene el valor de Router ID configurado de forma manual, es utilizada la dirección IPv4 de una interfaz física como valor para este parámetro. Solo es necesario que la interfaz se encuentre en estado UP/UP o DOWN/DOWN para poder ser utilizada, pero no administrativamente abajo (shutdown).</p>
+<pre><code>    R1(config)#interface GigabitEthernet0/1
+    R1(config-if)#no shutdown
+    R1(config-if)#ip address 192.168.1.1 255.255.255.0
+    R1(config-if)description ENLACE 192.168.1.0 
+    R1(config-if)#interface Serial0/0/0                         
+    R1(config-if)#no shutdown
+    R1(config-if)#ip address 10.10.10.2 255.255.255.252
+    R1(config-if)#description ENLACE R2
+    R1(config-if)#clock rate 9600
+    R1(config-if)#interface Serial0/0/1
+    R1(config-if)#no shutdown
+    R1(config-if)#ip address 30.30.30.1 255.255.255.252
+    R1(config-if)#description ENLACE R3
+    R1(config-if)#clock rate 9600
+</code></pre>
+<h3 is-upgraded>CIFRADO DE CONTRASEÑA CON CONDIFICACIÓN MD5.</h3>
+<p>Una vez las distintas interfaces configuradas y declarado el protocolo OSPF con un área asignada, sólo queda cifrar nuestra contraseña. El <em>hash</em> que proporciona la codificación MD5 es lo bastante segura para evitar cualquier intrusión en la red. Aunque siempre existen salvedades, tales como la de usar un descifrado por fueza bruta. Por esto se recomienda claves de 8 dígitos, caractéres especiales, mayúsculas y minúsculas.<br>Un router confía en que la información de enrutamiento proviene de un router que debería estar enviando información. Un router también confía en que la informaciónno haya sido alterada a lo largo de la ruta. Para garantizar esta confianza, los routers de un áreaespecíficapueden configurarse para autenticarse entre sí. Cada interfaz OSPF puede presentar una clave de autenticación para que la usen los routers que envían información de OSPF hacia otros routers del segmento. La clave de autenticación o contraseña es compartida entre los routers. Esta clave se utiliza para generar los datos de autenticación en el encabezado del paquete de OSPF. La contraseña puede contener hasta ocho caracteres.</p>
+<pre><code>R1#configure terminal
+R1(config)#router ospf 1
+R1(config-router)#area 1 authentication message-digest
+R1(config-router)#exit
+R1(config)#interface GigabitEthernet 0/1
+R1(config-if)#ip ospf message-digest-key 1 md5 C1$C0-123
+R1(config-if)#interface Serial 0/0/0
+R1(config-if)#ip ospf message-digest-key 1 md5 C1$C0-123
+R1(config-if)#interface Serial 0/0/1
+R1(config-if)#ip ospf message-digest-key 1 md5 C1$C0-123
+</code></pre>
+<h2 is-upgraded>CONFIGURACIÓN ROUTER 2 (R2).</h2>
+<h3 is-upgraded><strong>Configuración del protocolo OSPF.</strong></h3>
+<pre><code>    R2(config)#router ospf 1
+    R2(config-router)#router-id 2.2.2.2
+    R2(config-router)#network 192.168.2.0 0.0.0.255 area 1
+    R2(config-router)#network 10.10.10.0 0.0.0.3 area 1
+    R2(config-router)#network 20.20.20.0 0.0.0.3 area 1
+    R2(config-router)#passive-interface GigabitEthernet 0/1
+</code></pre>
+<h3 is-upgraded><strong>Interfaz física con dirección IPv4.</strong></h3>
+<pre><code>    R2(config)#interface GigabitEthernet0/1
+    R2(config-if)#no shutdown
+    R2(config-if)#ip address 192.168.2.1 255.255.255.0
+    R2(config-if)description ENLACE 192.168.2.0 
+    R2(config-if)#interface Serial0/0/0                         
+    R2(config-if)#no shutdown
+    R2(config-if)#ip address 20.20.20.1 255.255.255.252
+    R2(config-if)#description ENLACE R3
+    R2(config-if)#clock rate 9600
+    R2(config-if)#interface Serial0/0/1
+    R2(config-if)#no shutdown
+    R2(config-if)#ip address 10.10.10.1 255.255.255.252
+    R2(config-if)#description ENLACE R1
+    R2(config-if)#clock rate 9600
+</code></pre>
+<h3 is-upgraded><strong>CIFRADO DE CONTRASEÑA CON CONDIFICACIÓN MD5.</strong></h3>
+<pre><code>    R2#configure terminal
+    R2(config)#router ospf 1
+    R2(config-router)#area 1 authentication message-digest
+    R2(config-router)#exit
+    R2(config)#interface GigabitEthernet 0/1
+    R2(config-if)#ip ospf message-digest-key 1 md5 C1$C0-123
+    R2(config-if)#interface Serial 0/0/0
+    R2(config-if)#ip ospf message-digest-key 1 md5 C1$C0-123
+    R2(config-if)#interface Serial 0/0/1
+    R2(config-if)#ip ospf message-digest-key 1 md5 C1$C0-123
+</code></pre>
+<h2 is-upgraded>CONFIGURACIÓN ROUTER 3 (R3).</h2>
+<h3 is-upgraded><strong>Configuración del protocolo OSPF.</strong></h3>
+<pre><code>    R3(config)#router ospf 1
+    R3(config-router)#router-id 3.3.3.3
+    R3(config-router)#network 192.168.3.0 0.0.0.255 area 1
+    R3(config-router)#network 30.30.30.0 0.0.0.3 area 1
+    R3(config-router)#network 20.20.20.0 0.0.0.3 area 1
+    R3(config-router)#passive-interface GigabitEthernet 0/1
+</code></pre>
+<h3 is-upgraded><strong>Interfaz física con dirección IPv4.</strong></h3>
+<pre><code>    R3(config)#interface GigabitEthernet0/1
+    R3(config-if)#no shutdown
+    R3(config-if)#ip address 192.168.3.1 255.255.255.0
+    R3(config-if)description ENLACE 192.168.3.0 
+    R3(config-if)#interface Serial0/0/0                         
+    R3(config-if)#no shutdown
+    R3(config-if)#ip address 30.30.30.2 255.255.255.252
+    R3(config-if)#description ENLACE R1
+    R3(config-if)#clock rate 9600
+    R3(config-if)#interface Serial0/0/1
+    R3(config-if)#no shutdown
+    R3(config-if)#ip address 20.20.20.2 255.255.255.252
+    R3(config-if)#description ENLACE R2
+    R3(config-if)#clock rate 9600
+</code></pre>
+<h3 is-upgraded><strong>CIFRADO DE CONTRASEÑA CON CONDIFICACIÓN MD5.</strong></h3>
+<pre><code>    R#configure terminal
+    R3(config)#router ospf 1
+    R3(config-router)#area 1 authentication message-digest
+    R3(config-router)#exit
+    R3(config)#interface GigabitEthernet 0/1
+    R3(config-if)#ip ospf message-digest-key 1 md5 C1$C0-123
+    R3(config-if)#interface Serial 0/0/0
+    R3(config-if)#ip ospf message-digest-key 1 md5 C1$C0-123
+    R3(config-if)#interface Serial 0/0/1
+    R3(config-if)#ip ospf message-digest-key 1 md5 C1$C0-123
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="CONCLUSIONES." duration="0">
+        <p>Para ver que el protocolo OSPF está bien instaurado de nuestra red, se realizan las siguientes comprobaciones:</p>
+<ol type="1">
+<li>Se llama al comando <em>show ip protocols</em> desde el menú de <em>de usuario con privilegios</em>:<pre><code>    R1#show ip protocols
+    Routing Protocol is &#34;ospf 1&#34; [1]*
+    Outgoing update filter list for all interfaces is not set 
+    Incoming update filter list for all interfaces is not set 
+    Router ID 1.1.1.1 [2]*
+    Number of areas in this router is 1. 1 normal 0 stub 0 nssa [3]*
+    Maximum path: 4
+    Routing for Networks: [4]*
+        192.168.1.0 0.0.0.255 area 1
+        10.10.10.0 0.0.0.3 area 1
+        30.30.30.0 0.0.0.3 area 1
+    Passive Interface(s): 
+        GigabitEthernet0/1 
+    Routing Information Sources: [5]*  
+        Gateway         Distance      Last Update 
+        1.1.1.1              110      00:01:33
+        2.2.2.2              110      00:00:53
+        3.3.3.3              110      00:00:53
+    Distance: (default is 110)
+</code></pre>
+<h4 is-upgraded>[1] Dado que es un comando común a múltiples protocolos diferentes, la presentación de su resultado tiene una estructura común que luego varía de acuerdo a las características del protocolo de que se trata.</h4>
+<h4 is-upgraded>[2] Muestra el Router ID asumido por el proceso del protocolo.</h4>
+<h4 is-upgraded>[3] Indica con cuántas áreas se encuentra conectado este dispositivo. En este caso se encuentra conectado únicamente al <em>área 1</em>.</h4>
+<h4 is-upgraded>[4] Indica cuáles son las redes sobre las que está enviando información de enrutamiento en sus actualizaciones. Son las redes comprendidas en el comando <em>network</em> y con el comando <em>passive-interface</em>.</h4>
+<h4 is-upgraded>[5] Lista de los dispositivos vecinos con los cuales está intercambiando información de enrutamiento utilizando este protocolo e indica para cada uno de los vecinos su dirección IP, distancia administrativa que se aplica a esa información y el tiempo transcurrido desde la última actualización recibida desde ese dispositivo vecino.</h4>
+</li>
+<li>El comando <strong>show ip interfaces brief</strong>, al igual que el comando anterior, se llama desde el <em>modo privilegiado</em>:<pre><code>    R1#show ip interface brief 
+    Interface                     IP-Address      OK?[1]*   Method [2]*   Status                            Protocol 
+    GigabitEthernet0/0     unassigned      YES        NVRAM         administratively down   down 
+    GigabitEthernet0/1     192.168.1.1     YES        NVRAM          up                                 up 
+    Serial0/0/0                  10.10.10.2       YES        NVRAM          up                                 up 
+    Serial0/0/1                  30.30.30.1       YES        NVRAM          up                                 up 
+    Vlan1                          unassigned      YES        unset             administratively down   down
+</code></pre>
+<h5 is-upgraded>[1] Verifica que el direccionamiento IPv4 asignada es actualmente válido. &#34;YES&#34; indica la validez de la asignación. &#34;NO&#34; indica un direccionamiento IPv4 no válido.</h5>
+<h5 is-upgraded>[2]Method: Indica el procedimiento utilizado para la asignación del direccionamiento referido antes. Tiene múltiples valores posibles. ######Los más usuales son:</h5>
+<ul>
+<li>TFTP - La configuración se ha obtenido de un servidor TFTP.</li>
+<li>manual - Se ha configurado manualmente a través de la CLI.</li>
+<li>NVRAM - Configuración leída de un archivo en la NVRAM.</li>
+<li>DHCP - Configuración obtenido a través de DHCP.</li>
+<li>unassigned - No tiene dirección IPv4 asignada.</li>
+<li>unset - No configurado.</li>
+</ul>
+</li>
+<li>El comando <strong>show ip ospf neighbor</strong> muestra la relación de vecino del router con cada uno con los routeres vecinos.<pre><code>    R1#show ip ospf neighbor
+    Neighbor ID     Pri   State           Dead Time   Address         Interface
+    2.2.2.2              0   FULL/  -        00:00:31      10.10.10.1      Serial0/0/0
+    3.3.3.3              0   FULL/  -        00:00:31      30.30.30.2      Serial0/0/1
+</code></pre>
+</li>
+<li>Con el comando <strong>show ip ospf database</strong><pre><code>    OSPF Router with ID (1.1.1.1) [1]* (Process ID 1) [2]*
+    Router Link States (Area 1) [3]*
+    Link ID         ADV Router [4]*   Age [5]*      Seq# [6]*            Checksum [7]*   Link count [8]*
+    3.3.3.3         3.3.3.3                  535            0x80000009       0x007ad8            5
+    2.2.2.2         2.2.2.2                  535            0x80000009       0x004b87            5
+    1.1.1.1         1.1.1.1                  535            0x80000007       0x000e8e            5
+</code></pre>
+<h5 is-upgraded>[1] Muestra el router ID de OSPF del dispositivo en el cual se ejecuta el comando.</h5>
+<h5 is-upgraded>[2] Muestra el identificador del proceso de OSPF al cual corresponde la información que se presenta.</h5>
+<h5 is-upgraded>[3] Inicio de la sección de la bases de datos que contiene la información obtenida utilizando LSAs tipo 1. Muestra cuáles son los otros dispositivos en el área. En este caso nos indica que hay 3 dispositivos OSPF en el área.</h5>
+<h5 is-upgraded>[4] Router ID del dispositivo que publicó el LSA.</h5>
+<h5 is-upgraded>[5] Tiempo en segundos desde que se recibió la información correspondiente a este LSA.</h5>
+<h5 is-upgraded>[6] Número de secuencia del LSA, permite detectar información vieja o duplicada.</h5>
+<h5 is-upgraded>[7] Valor de verificación del contenido completo del LSA.</h5>
+<h5 is-upgraded>[8] Cantidad de interfaces que participan del área, detectadas en el dispositivo.</h5>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
