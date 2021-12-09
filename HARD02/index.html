@@ -1,0 +1,115 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>GUÍA BÁSICA DE SECURIZACION BIOS YOGA SLIM 9 14ITL5 (82D1).</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="HARD02"
+                  title="GUÍA BÁSICA DE SECURIZACION BIOS YOGA SLIM 9 14ITL5 (82D1)."
+                  environment="web"
+                  feedback-link="https://github.com/jrolsan1984/HARDENING/issues/new?title=Error&#43;en&#43;guia&#43;de&#43;Securizacion&#43;BIOS">
+    
+      <google-codelab-step label="INTRODUCCIÓN." duration="0">
+        <p>Sin la <em>BIOS (Basic Input-Ouput System)</em> nada funcionaria en nuestro PC. En ocasiones puede mejorar el rendimiento del PC o ampliar sus capacidades, modificando la configuración.<br>La BIOS es un programa que ya está instalado en el ordenador, en concreto en su placa base. Lo primero que hace es un chequeo de todos los componentes de hardware. Si encuentra algún fallo, se encarga de avisarte a través de un mensaje en pantalla, o mediante los &#34;tradicionales&#34; pitidos de alarma.<br></p>
+<p class="image-container"><img alt="Ilustración 1. CHIP BIOS" src="img\bddf716ead8d9a6.jpg"></p>
+<p>La BIOS está grabada en un pequeño chip de memoria situado en la placa base.En los ordenadores antiguos (los de hace tan sólo unos cuantos años) no era posible borrar esta información, sino tan sólo leerla. Por eso recibe también el nombre de ROM (ReadOnly Memory, o Memoria de Sólo Lectura), y a menudo aparece en libros y manuales como ROM-BIOS.<br>Ya hace algún tiempo que se puede modificar la BIOS. Para ello se emplea el llamado &#34;Setup&#34; de la BIOS. Como los parámetros de configuración básica se escriben en una memoria CMOS de la placa base, a esta utilidad se la conoce como CMOS Setup Utility, o &#34;Programa de ayuda de Configuración CMOS&#34;. La BIOS almacena también datos acerca de la configuración en una parte especial del chip de memoria BIOS, el NVRAM .</p>
+<h5 is-upgraded>NOTA: ESTE EJEMPLO ESTA TESTADO EN UNA BIOS SIMULADA DE LENOVO YOGA SLIM 9 14ITL5.</h5>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="PRINCIPALES FUNCIONES DEL BIOS." duration="0">
+        <p><strong>ESTAS SON LAS PRINCIPALES FUNCIONES DEL BIOS:</strong></p>
+<ol type="1">
+<li>Es el encargado de ejecutar los procesos POST (Power On Self Test), estos verifican si la memoria RAM, los periféricos y demás componentes de hardware funcionan correctamente antes de comenzar a cargar el sistema operativo.</li>
+<li>Otra de las funciones principales es la de buscar y cargar el sistema operativo, esta se llama BOOTSTRAP LOADER o BOOTLOADER. Cuando encuentra el sector de arranque en el dispositivo de almacenamiento comienza la carga del sistema operativo instalado en el dispositivo de almacenamiento primario. Inmediatamente se le pasa el control de las funciones principales al sistema operativo.</li>
+<li>A través de Interfaz Avanzada de Configuración y Energía(ACPI) se controla el funcionamiento del BIOS. Además, permite modificar los ajustes de hardware y gestionar el consumo de energía.</li>
+<li>El controlador BIOS se encarga de darle al usuario los controles básicos de funcionamiento de hardware y periféricos como el teclado.</li>
+<li>Comprueba todos los componentes de hardware conectados a la placa base y los dispositivos de almacenamiento en el orden definido por el usuario.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="¿COMO SE ACCEDE AL BIOS?" duration="0">
+        <p>EL acceso a la configuración es a través de la <strong>Interfaz Avanzada de Configuración y Energía (ACPI)</strong>. Para acceder a esta interfaz deberá presionar varias veces una de las teclas: F1, F2, F8, F10, ESC o DEL dependiendo del fabricante de la placa base. En caso de que aparezca un menú deberá seleccionar <strong>Entrar a la configuración del BIOS</strong>.</p>
+<p>Se debe tener en cuenta que la configuración se guarda en la memoria CMOS, en caso de que note que la configuración del BIOS no se mantiene cuando desconecta el ordenador del fluido eléctrico deberá cambiar la pila CMOS.<br></p>
+<h2 is-upgraded>COMO RESTABLECER LA CONFIGURACIÓN DEL BIOS.</h2>
+<p>Si notamos que alguna configuración realizada en el BIOS afecta el correcto funcionamiento de nuestro ordenador, se  puede reiniciar la configuración del BIOS y regresar a sus ajustes predeterminados. Esta operación se puede hacer de dos formas:</p>
+<ol type="1">
+<li>Seleccionando la opción <strong>Configuración predeterminada de fábrica</strong> en la interfaz de configuración del BIOS.</li>
+<li><strong>Extraer la batería CMOS</strong> de la placa base durante unos minutos. La batería CMOS es la que permite que la configuración del BIOS guardada en la memoria CMOS no se pierda.</li>
+<li>Usar el jumper o botón <strong>Clear CMOS</strong> o <strong>Reset CMOS</strong>, previo apagado del ordenador, cambiar el par de pines unidos (en caso de que sean 3) por la pieza de plástico, luego comprobar los cambios y volver a poner la pieza en los pines iniciales. En caso de que sean 2 pines quitar a pieza plástica.</li>
+</ol>
+<p class="image-container"><img src="img\c0d64523d66cf068.jpg"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="BIOS 82D1" duration="0">
+        <p>Empezaremos a securizar nuestra BIOS en el siguiente orden:<br></p>
+<ul>
+<li>Contraseña de usuario o Power-On.</li>
+<li>Constraseña de administrador.</li>
+<li>Deshabilitar arranques externos.</li>
+<li>Establecer un orden de arranque.</li>
+<li>Otras opciones de seguridad.</li>
+</ul>
+<h2 is-upgraded>CONTRASEÑA DE USUARIO O POWER-ON.</h2>
+<p>Para evitar cualquier intrusión en nuestro pc, el primer paso es habilitar una contraseña en el inicio del arranque del sistema. Esta opción se habilita en la pestaña de <strong>SECURITY</strong>, en la opción <strong>USER PASSWORD</strong>.<br></p>
+<p class="image-container"><img src="img\55e931b6a6229469.png"></p>
+<p>Introducimos la contraseña. Las contraseñas deben de cumplir los siguientes requisitos de complejidad como mínimo:<br></p>
+<ul>
+<li>8 caracteres</li>
+<li>Mayúsculas</li>
+<li>Minúsculas</li>
+<li>Dígitos de base 10</li>
+<li>Carateres no alfanuméricos</li>
+</ul>
+<h2 is-upgraded>CONTRASEÑA DE ADMINISTRADOR.</h2>
+<p>Es una configuración de las más importantes. Se trata de <strong>restringir el acceso a la configuración del BIOS.</strong> En la misma pestaña de <strong>SECURITY</strong> que en el paso anterior, y la opción <strong>ADMINISTRATOR PASSWORD</strong> se restringe esta entrada.<br></p>
+<p class="image-container"><img src="img\cad4ea7a66f0c1f0.png"></p>
+<h2 is-upgraded>DESHABILITAR ARRANQUES EXTERNOS.</h2>
+<p>El principal motivo por el que se realiza esta acción no es otra que la seguridad del pc, ya que si se tiene habilitado este tipo de arranque se podrian realziar la instalación de un sistema operativo, usar un software para recuperar contraseñas, instalar programas no deseados o el uso de CDs con software con el fin de obtener archivos o eliminarlos.<br>El primer paso es el acceso al BIOS como en los pasos anteriores. En nuestra BIOS nos desplazaremos hasta el menú <strong>BOOT</strong> y selecionamos <em>Disable</em> en todas las opciones marcadas.<br></p>
+<p class="image-container"><img src="img\5cbbb5b4b823f0a0.png"></p>
+<ol type="1">
+<li><strong>USB Boot</strong> deshabilita el inicio de cualquier arranque de sistema por USB.</li>
+<li><strong>PXE Boot to LAN</strong>. Esta opción permite arrancar la tarjeta de red en remoto. Por seguridad, es conveniente tenerla desactivada ya que es una via de entrada por parte de un atacante.</li>
+<li><strong>IPV4 PXE First</strong>. Esta opción permite arrancar la tarjeta de red mediante el protocolo IPv4. Si tenemos la opción <strong>PXE Boot to LAN</strong><em>desactivada</em>, esta última desaparece de las opciones.</li>
+</ol>
+<h2 is-upgraded>OTRAS OPCIONES DE SEGURIDAD.</h2>
+<p><strong>Secure Boot</strong> o <strong>Arranque Seguro</strong> impide la ejecución de cualquier software no fimardo o certificado en el arranque del sistema. Con esto se intenta evitar la carga de <em>malware</em> o aplicaciones que no sean de fiar cuando inicias el ordenador, pero tambien afecta a sistemas opertivos como las distribuciones <em>GNU/Linux</em>.<br><em>Secure Boot</em> o <em>Arranque Seguro</em> se habilita en el menú <strong>SECURITY</strong> en la opción <strong>Secure Boot</strong>.<br></p>
+<p class="image-container"><img src="img\cdcbd1ec934a8f30.png"></p>
+<p>Otra opción de seguridad que ofrece este BIOS es la posibilidad de añadir una password al disco donde tenemos alojado el sistema operativo. Esta opción se encuentra en la pestaña de <strong>SECURITY</strong>, en la opción <strong>Set Hard Disk Password</strong>.<br></p>
+<p class="image-container"><img src="img\b660237878850f3f.png"></p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
