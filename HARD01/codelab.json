@@ -1,0 +1,27 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2021-11-21T00:30:53+01:00",
+  "id": "HARD01",
+  "duration": 0,
+  "title": "GUÍA BÁSICA DE SECURIZACION BIOS UEFI HP 84A6.",
+  "summary": "Securización BIOS",
+  "source": "codelab.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "securizacion",
+    "bios",
+    "uefi",
+    "secure"
+  ],
+  "tags": [
+    "web"
+  ],
+  "feedback": "https://github.com/jrolsan1984/HARDENING/issues/new?title=Error+en+guia+de+Securizacion+UEFI",
+  "url": "HARD01"
+}
