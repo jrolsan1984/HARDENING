@@ -1,0 +1,140 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>GUÍA BÁSICA DE SECURIZACION BIOS UEFI HP 84A6.</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="HARD01"
+                  title="GUÍA BÁSICA DE SECURIZACION BIOS UEFI HP 84A6."
+                  environment="web"
+                  feedback-link="https://github.com/jrolsan1984/HARDENING/issues/new?title=Error&#43;en&#43;guia&#43;de&#43;Securizacion&#43;UEFI">
+    
+      <google-codelab-step label="INTRODUCCIÓN." duration="0">
+        <p>Todos sabemos que en los ordenadores viene integrada una BIOS. Pero, ¿sabemos realmente que es una BIOS?<br>BIOS proviene de las siglas &#34;Basic Input Output System&#34; (Sistema basico de entrada y salida).<br>Basicamente, es el primer sistema operativo que se pone en marcha cuya funcion es poner el hardware en funcionamiento antes del sistema operativo principal.<br></p>
+<p class="image-container"><img alt="Ilustración 1. CHIP BIOS" title="_Ilustración 1. CHIP BIOS_" src="img\c1cd0419aed25cc6.jpg"></p>
+<p>UEFI (Unified Extensible Firmware Interface) es el firmware sucesor de las BIOS convencionales. UEFI realiza todas las funciones de BIOS y otras funciones adicionales, como por ejemplo una interfaz gráfica, un sistema de inicio seguro llamado Secure Boot, entre otras.<br><br><br>Se encuentra en la memoria ROM, es decir, que es una memoria que no se puede borrar o que es una memoria no volátil. Sobre el cual se encuentran asignados las primeras direcciones dememoria a las que el procesador debe de acceder.<br>La UEFI se encarga de funciones a muy bajo nivel, esto quiere decir que su función es más lógica que física.<br><br></p>
+<h5 is-upgraded>NOTA: ESTE EJEMPLO ESTA TESTADO EN UN PORTATIL HP LANTOP 15-da184ns.</h5>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="PRINCIPALES FUNCIONES DE LA UEFI." duration="0">
+        <p><strong>ESTAS SON LAS PRINCIPALES FUNCIONES DE LA UEFI:</strong></p>
+<ol type="1">
+<li>iniciar los componentes de hardware y lanzar el sistema operativo de un ordenador cuando lo encendemos.</li>
+<li>Manejo más fácil con ayuda del ratón y de la interfaz gráfica.</li>
+<li>Gestor de arranque integrado, que administra diferentes gestores de arranque de diferentes sistemas operativos.</li>
+<li>Herramienta de línea de comandos para el diagnóstico y la búsqueda de errores (UEFI Shell).</li>
+<li>Conectividad de red incluso sin el sistema operativo no está activo.</li>
+<li>Mayor seguridad gracias al modo Secure Boot.</li>
+<li>Y todas las opciones que ofrece una BIOS clásica.<br><img src="img\f844439ab4e9c618.png"></li>
+</ol>
+<p>Todas estas funciones se pueden hacer de manera directa desde la UEFI, sin necesidad de acceder al sistema operativo. Lo cual es sumamente útil si no tenemos un sistema operativo instalado en el PC y necesitamos realizar una de las gestiones que se encuentran en la lista de arriba.<br>El modo Secure Boot se introdujo para hacer el proceso más seguro. Cada componente de software se verifica antes de iniciarse utilizando <strong>firmas criptográficas</strong>, introducidas en la base de datos de firmas del firmware UEFI. Si alguno de estos componentes está manipulado o no posee firma o una clave válida, no pasará el test de seguridad y el sistema interrumpirá el arranque.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="¿COMO SE ACCEDE A LA UEFI?" duration="0">
+        <p>Existen tantas maneras de acceder a la BIOS como las diferentes UEFI en sí. Aquí mostramos algunas marcas y la combinación de teclas para su acceso.<br></p>
+<ul>
+<li>HP: F10</li>
+<li>Lenovo: F2 o Fn + F2 en los portátiles, F1 en sus PC de escritorio y Enter y luego F1 en el caso de que estés utilizando un Thinkpad</li>
+<li>Gigabyte / Aorus: F2 o SUPR</li>
+<li>MSI: SUPR</li>
+<li>ASRock: F2 o SUPR.</li>
+<li>ASUS: F2 para todos los PCs, F2 o SUPR para las placas base.</li>
+<li>Acer: F2 o SUPR.</li>
+<li>Dell: F2 o F12</li>
+</ul>
+<p><br>Windows 10 tambien permite ingresar a la UEFI desde el pripo sistema operativo. Eso sí, de reiniciar el sistema no nos libra nadie.</p>
+<p>Accedemos al menú de <strong>configuración</strong>, y clicamos en <strong>Actualización y seguridad</strong>.<br></p>
+<p class="image-container"><img src="img\dddb31b32129dcf.png"></p>
+<p>Clicamos en <strong>Recuperación</strong>, sutiado en el menú vertical en la parte izquierda. Y clicamos en <strong>Reiniciar ahora</strong>, en el apartado <strong>Inicio Avanzado</strong>.<br></p>
+<p class="image-container"><img src="img\f98287d05b5d3cd0.png"></p>
+<p>Una vez reiniciado el sistema, nos aparecerá el siguiente menú, en el que seleccionaremos <strong>Solicionar problemas</strong>.<br></p>
+<p class="image-container"><img src="img\224bc5e94a38e9d7.png"></p>
+<p>En el siguiente paso, seleccionamos <strong>Opciones avanzadas</strong>.<br></p>
+<p class="image-container"><img src="img\20eb2d6fbfe7aa91.png"></p>
+<p>Por último en la siguiente ventana, selecionamos <strong>Configuración de firmware UEFI</strong>.<br></p>
+<p class="image-container"><img src="img\cd02b85b00274d0a.png"></p>
+<p>Y <strong>reiniciamos</strong>.<br></p>
+<p class="image-container"><img src="img\9b93bf5c702af44c.png"></p>
+<p>Al reiniciar, nos saldrá el siguiente menú, y selecionamos mediante las <strong>teclas de función</strong> la acción deseada.<br></p>
+<p class="image-container"><img src="img\bc9e278b3b079c39.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="UEFI HP 84A6." duration="0">
+        <p>Empezaremos a securizar nuetra UEFI en el siguiente orden:<br></p>
+<ul>
+<li>Contraseña de usuario o Power-On.</li>
+<li>Constraseña de administrador.</li>
+<li>Deshabilitar arranques externos.</li>
+<li>Establecer un orden de arranque.</li>
+<li>Otras opciones de seguridad.</li>
+</ul>
+<h2 is-upgraded>CONTRASEÑA DE USUARIO O POWER-ON.</h2>
+<p>Para evitar cualquier intrusión en nuestro pc, el primer paso es habilitar una contraseña en el inicio del arranque del sistema. Esta opción se habilita en la pestaña de <strong>SEGURIDAD</strong>, en la opción <strong>CONTRASEÑA DE ARRANQUE</strong>.<br></p>
+<p class="image-container"><img src="img\95868679844b0d43.png"></p>
+<p>Introducimos la contraseña. Las contraseñas deben de cumplir los siguientes requisitos de complejidad como mínimo:<br></p>
+<ul>
+<li>8 caracteres</li>
+<li>Mayúsculas</li>
+<li>Minúsculas</li>
+<li>Dígitos de base 10</li>
+<li>Carateres no alfanuméricos</li>
+</ul>
+<p class="image-container"><img src="img\d62f0b41c87fd03a.png"></p>
+<p>Una vez que reiniciemos el equipo, nos pedirá la contraseña que hemos configurado en el paso anterior.<br></p>
+<p class="image-container"><img src="img\4c52454e361dea52.png"></p>
+<h2 is-upgraded>CONTRASEÑA DE ADMINISTRADOR.</h2>
+<p>Es una configuración de las más importantes. Se trata de <strong>restringir el acceso a la configuracion de la UEFI.</strong> En la misma pestaña de <strong>SEGURIDAD</strong> que en el paso anterior, y la opción <strong>CONTRASEÑA DE ADMINISTRADOR</strong> se restringe esta entrada.<br></p>
+<p class="image-container"><img src="img\488fa5a1a8c9a98f.png"></p>
+<p>Una vez habilitada esta opción, nos pedirá que introdizcamos una contraseña. La contraseña más favorable es siempre la que cumpla los mínimos de los requisitos de complejidad vistos en el paso anterior.<br></p>
+<p class="image-container"><img src="img\40334bb32fa99531.png"></p>
+<p>Al igual que en la contraseña de POWER-ON, al reiniciar el equipo nos saldrá, en este caso, la misma ventana. Pidiendo que introduzacamos la contraseña.<br></p>
+<p class="image-container"><img src="img\4c52454e361dea52.png"></p>
+<h2 is-upgraded>DESHABILITAR ARRANQUES EXTERNOS.</h2>
+<p>El principal motivo por el que se realiza esta acción no es otra que la seguridad del pc, ya que si se tiene habilitado este tipo de arranque se podrian realziar la instalación de un sistema operativo, usar un software para recuperar contraseñas, instalar programas no deseados o el uso de CDs con software con el fin de obtener archivos o eliminarlos.<br>El primer paso es el acceso a la UEFI como en los pasos anteriores. En nuestra UEFI nos desplazaremos hasta el menú <strong>Configuración del sistema</strong>.<br></p>
+<p class="image-container"><img src="img\9c43347d34c3f225.png"></p>
+<p>Para deshabilitar la posibildad de un arranque externo, nos adentramos en el submenú <strong>Opciones de arranque</strong>, donde desactivaremos <em>TODO</em> excepto menos el <strong>Arranque seguro</strong> o <strong>Secure boot</strong>. Esta opción se explicará más avanzada esta guía.<br></p>
+<p class="image-container"><img src="img\5a0853d59b28e0f7.png"></p>
+<h5 is-upgraded>NOTA: CON ESTA CONFIGURACIÓN YA TENDRÍAMOS INHABILITADA CUALQUIER ARRANQUE QUE NO SEA EL DEL PROPIO SISTEMA OPERATIVO.</h5>
+<h2 is-upgraded>ORDEN DE ARRANQUE DEL SISTEMA.</h2>
+<p>Cuando arrancamos nuestro ordenador, lo primero que carga es el firmware UEFI o el BIOS para posteriormente iniciarse el sistema operativo. Pero enfocando esta guía a la seguridad, no es recomendable que el arranque por dispositivos externos o USBs esten activados.<br>El cambio de orden de arranque se realiza en la opción <strong>Configuración del sistema</strong>, en el submenú <strong>Opciones de arranque</strong>. Pondremos como primera opción <em>Administrador de arranque del SO</em>. Esto quiere decir que &#34;mirará&#34; donde está el <em>boot Manager</em> del sistema operativo.<br></p>
+<p class="image-container"><img src="img\89a3b4adb13cec8.png"></p>
+<h2 is-upgraded>OTRAS OPCIONES DE SEGURIDAD.</h2>
+<p><strong>Secure Boot</strong> o <strong>Arranque Seguro</strong> impide la ejecución de cualquier software no fimardo o certificado en el arranque del sistema. Con esto se intenta evitar la carga de <em>malware</em> o aplicaciones que no sean de fiar cuando inicias el ordenador, pero tambien afecta a sistemas opertivos como las distribuciones <em>GNU/Linux</em>.<br><em>Secure Boot</em> o <em>Arranque Seguro</em> se habilita en el menú <strong>Opciones del sistema</strong> en la opción <strong>Arranque Seguro</strong>.<br></p>
+<p class="image-container"><img src="img\5e019bd3b52747d5.png"></p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
