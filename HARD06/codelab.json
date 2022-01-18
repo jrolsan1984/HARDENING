@@ -1,0 +1,28 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2022-01-18T20:20:19+01:00",
+  "id": "HARD06",
+  "duration": 0,
+  "title": "GUÍA DE CONFIGURACIÓN SEGURA DE ROUTER NuCom NC-WR764TGV.",
+  "summary": "Configuración segura de router xxxx yyyyy.",
+  "source": "codelab.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "securizacion",
+    "secure",
+    "router",
+    "nucom",
+    ""
+  ],
+  "tags": [
+    "web"
+  ],
+  "feedback": "https://github.com/jrolsan1984/HARDENING/issues/new?title=Configuración+segura+router+domestico",
+  "url": "HARD06"
+}

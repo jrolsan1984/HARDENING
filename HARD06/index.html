@@ -1,0 +1,114 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>GUÍA DE CONFIGURACIÓN SEGURA DE ROUTER NuCom NC-WR764TGV.</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  id="HARD06"
+                  title="GUÍA DE CONFIGURACIÓN SEGURA DE ROUTER NuCom NC-WR764TGV."
+                  environment="web"
+                  feedback-link="https://github.com/jrolsan1984/HARDENING/issues/new?title=Configuración&#43;segura&#43;router&#43;domestico">
+    
+      <google-codelab-step label="INTRODUCCIÓN." duration="0">
+        <p>Un router es un dispositivo que permite interconectar dispositivos que funciones en el marco de una red. Su función es la de establecer la ruta que destinará a cada paquete de datos dentro de una red informática.</p>
+<p>El presente trabajo cubre la configuración de un router doméstico, cuyo riesgo no compensa la adquisición de dispositivos más sofisticados.</p>
+<p class="image-container"><img src="img\d44a5bdbfdfc4b12.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="CONFIGURACIÓN ROUTER NuCom NC-WR764TGV." duration="0">
+        <p>Para una buena configuración segura de nuestro router, realizaremos los siguientes pasos:</p>
+<ul>
+<li>Configuramos <strong>Basic Setup</strong>.</li>
+<li><strong>Advanced Setup</strong>.</li>
+<li><strong>Applications</strong>.</li>
+<li><strong>Management</strong>.<br>Este despliegue de opciones, tiene un apartado llamado <em>Status</em>, que nos permite ver el estado de las diferentes configuraciones, pero de forma muy escuetas.</li>
+</ul>
+<p class="image-container"><img src="img\154d16227387abe.png"></p>
+<h2 is-upgraded>BASIC SETUP.</h2>
+<p>Esta configuración nos despliega dos submenús. <strong>LAN</strong> y <strong>Wireless</strong>. Comenzaremos por esta la parte LAN.</p>
+<h3 is-upgraded>LAN</h3>
+<p>Al desplegar el submenú <em>LAN</em>, nos despliega otro submenú, <strong>IPv4 Configuration</strong>. Para una buena configuración segura, realizaremos lo siguiente:</p>
+<ul>
+<li>Start(PC): IP donde comenzará nuestra red. Lo más común es q las redes domésticas tengan la puerta de enlace o gateway con la primera IP del rango asginada, con lo que nuestra red comenzará con la .2</li>
+<li>End(PC): IP donde finalizará nuestra red. Para una mayor seguridad, se limita el número de IPs que pueda dar nuestro servidor DHCP integrado en el router. Para este ejemplo hemos optado por una red de 49 IPs, finalizando en la direccion .50.</li>
+<li>Lease Time: corresponde al tiempo de concesión de la IP asignada por el DHCP. Esta configuración permite editar las reservas de direcciones IP si fuera el caso. Por ejemplo, la IP del propio router por la parte LAN, una impresora, un servidor NAS...</li>
+</ul>
+<p class="image-container"><img src="img\57fd356c0246e490.png"></p>
+<ul>
+<li>Lan Port Map: esta es la configuración más crítica de esta primera parte, ya que diremos en que LAN y SSID queremos que le afecte la configuración. Si no marcamos alguna, simplemente no apareceran. Tales como las SSIDs que no queramos, ya que este router ofrece la posibilidad de añadir hasta 8 SSIDs diferentes (para invitados).</li>
+</ul>
+<p class="image-container"><img src="img\c17f6958a48ce936.png"></p>
+<h3 is-upgraded>WIRELESS</h3>
+<p>La Wifi de este router trabaja en bandas de 2.4GHz y 5GHz. Exite un submenú para cada uno. Aporta esta configuración básica, un tercer submenú sobre seguridad inalambrica, <strong>Security Setting</strong>.<br>En el submenú <strong>Basic Configuration 2.4GHz</strong> clicaremos el check <em>Hide SSID</em> para ocultar la red. En la opción <em>Maximum Clients</em> otorgaremos un total de 19 clientes de los 49 posibles. Las demás SSIDs (invitados) vienen desactivadas por defecto.</p>
+<p class="image-container"><img src="img\89f886b9cdbafa7e.png"></p>
+<p>Para la configuración del submenú <strong>Basic Configuration 5GHz</strong> es igual que la banda de 2.4GHz. La SSID activa es la número 5, las otras 3 son de invitados que por defecto vienen desactivadas. Clicamos el check <em>Hide SSID</em> para ocultar la red. Y en la opción <em>Maximum Clients</em> otorgamos los 20 que faltan para completar el rango completo de 49 IPs que hemos configurado previamente.</p>
+<p class="image-container"><img src="img\4d1cf360458e7970.png"></p>
+<p>En el último submenú de la configuración básica del menú <em>Wireless</em> llamado <strong>Security Setting</strong>, configuraremos de las SSIDs la <em>Authentication</em>, <em>WPA Preshare Key</em> y <em>Encryption Mode</em>. Para los anteriores apartados, nos hemos decantado por la siguiente configuracion que se muestra en la imagen.</p>
+<p class="image-container"><img src="img\1410af4c737fd776.png"></p>
+<p>Esta es sin duda la mejor opción si no tenemos dispositivos compatibles con WPA3, que es el último estándar del que hablaremos a continuación. Los equipos protegidos con WPA2-PSK (AES) van a estar protegidos adecuadamente. Es una opción de cifrado mucho más robusta.</p>
+<p>Hay que indicar que los routers modernos suelen tener esta configuración de serie. En muchos casos, cuando simplemente ponen WPA2 o WPA2-PSK, en realidad utilizan AES y no TKIP.</p>
+<h2 is-upgraded>ADVANCED SETUP</h2>
+<p>Este menú consta de 4 apartados en donde se hará una una configuración más específica y avanzada del router.</p>
+<h3 is-upgraded>WIRELESS</h3>
+<p>Este submenú, al igual que en la configuración básica, consta de dos apartados. Uno por banda de la wifi.</p>
+<p>El primer apartado de este menú es la <strong>Advance Configuration 2.4GHz</strong>. En la imangen se puede observar que los parámetros de <em>Mode</em>, <em>Bandwidth</em> y <em>Channel</em> son los más importantes, ya que con estos bien configurados no debería de haber problemas con la velocidad de transmisión de datos. El parámetro <em>Channel</em> es mejor escanear la banda con una aplicación de terceros, y mirar cual es la menos usada para evitar una saturación en el canal.</p>
+<p class="image-container"><img src="img\4fb18befee514362.png"></p>
+<p>Para el apartado de <strong>Advance Configuration 5GHz</strong> es exactamente igual que en apartado anterior. A menos que o no querramos utilizar la banda de 5GHz o querramos diferenciar dos redes... por el motivo que sea.</p>
+<p class="image-container"><img src="img\1474232f81e8cf4c.png"></p>
+<h3 is-upgraded>NAT</h3>
+<p>En el apartado de <em>NAT</em>, se nos despliega cuatro submenús. De estos submenú, solo tendremos en cuenta del apartado <em>DMZ-Host</em>.</p>
+<p>El concepto DMZ host se refiere a la posibilidad de establecer una dirección IP que tendrá todos los puertos abiertos en el router, con la excepción de aquellos que ya estuvieran definidos en la sección NAT. Es muy importante entender los importantes riesgos de seguridad que conlleva DMZ Host y utilizarlo únicamente como herramienta de diagnóstico. En escenarios domésticos y sin los conocimientos ni herramientas adecuadas, desproteger completamente un equipo ante posibles intrusiones es una fuente casi segura de problemas.</p>
+<p class="image-container"><img src="img\a9bfb1d2408a3d44.png"></p>
+<h3 is-upgraded>SECURITY</h3>
+<p>En este menú nos permite realizar un filtrado por MACs de los dispositivos que tienen autorización al acceso a la red (Whitelist) y los que tiene el acceso rechazado (Blacklist).</p>
+<p class="image-container"><img src="img\9967de87bd8ce000.png"></p>
+<h2 is-upgraded>MANAGEMENT</h2>
+<p>En este menú, para una buena securización del router, sólo nos interesa los apartados <em>Settings</em>, <em>Account Management</em> y <em>Tools</em>.</p>
+<h3 is-upgraded>SETTINGS</h3>
+<p>Este apartado nos permite realizar <em>Backups</em> de la configuración del router, realizar subidas de archivos de configuración del router en <em>Update</em> y resetear a fábrica con la opción <em>Restore Default</em>.</p>
+<p class="image-container"><img src="img\ec902ed087ea5d62.png"></p>
+<h3 is-upgraded>ACCOUNT MANAGEMENT</h3>
+<p>En este apartado se nos despliega el parámetro <em>Password</em>, donde es de obligado cumplimiento para una buena securización de nuestro enrutador, un cambio de contraseña. Siendo esta compleja con caracteres especiales, minúsculas y mayúsculas.</p>
+<p class="image-container"><img src="img\f7c74412db368350.png"></p>
+<h4 is-upgraded>TOOLS</h4>
+<p>Este apartado nos ofrece dos herramientas para la comprobación del estado de la red LAN y WAN. Nos ofrece la posibilidad de realizar <em>PING</em> de una manera muy sencilla; y <em>TRACE ROUTE</em> igualmente de sencillo.</p>
+<p class="image-container"><img src="img\b6cb17bfbac145d6.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="CONCLUSIONES." duration="0">
+        <p>En cuanto a la decisión de cuánto securizar un router, depende del contexto al que lo queramos enfocar. Si es para un domicilio para un uso simple de redes y para dar cobertura a las visitas, un router doméstico es perfecto para tus necesidades. Pero si trabajas mucho y sobretodo desde casa, puedes adquirir un router más profesional de los que el proveedor te instala, disfutando de más opciones de seguridad y la posibilidad de aumentar las velocidades de conexiones.</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
